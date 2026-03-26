@@ -1,4 +1,4 @@
-# 神易數兵佔系統 | Shenyishu Military Divination System
+# 神易數兵占 | Shenyishu Military Divination System
 
 **講武全書兵佔卷之十六 · 明州玄谷蔡時宜撰**
 

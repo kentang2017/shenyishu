@@ -90,7 +90,8 @@ with st.sidebar:
     st.caption("時區: Asia/Hong_Kong")
 
 # ── Tabs ────────────────────────────────────────────────────────
-pan, readme_tab = st.tabs([' 🧮排盤 ', ' 📖說明 '])
+plate_lines = None
+pan, plate_tab, readme_tab = st.tabs([' 🧮排盤 ', ' 📄排盤文字 ', ' 📖說明 '])
 
 # ── 排盤 Tab ────────────────────────────────────────────────────
 with pan:
@@ -156,12 +157,7 @@ with pan:
         plate_lines.append("")
         plate_lines.append("=" * 52)
 
-        output = st.empty()
-        with st_capture(output.code):
-            print("\n".join(plate_lines))
-
-        # ── Structured display below code block ─────────────────
-        st.markdown("---")
+        # ── Structured display ───────────────────────────────
 
         # 干支 & 五行
         st.subheader("干支資訊")
@@ -261,6 +257,17 @@ with pan:
 
     except Exception as e:
         st.error(f"起盤錯誤: {e}")
+
+# ── 排盤文字 Tab ─────────────────────────────────────────────────
+with plate_tab:
+    st.header('排盤文字')
+    st.caption('講武全書兵佔卷之十六 · 明州玄谷蔡時宜撰')
+    if plate_lines:
+        output = st.empty()
+        with st_capture(output.code):
+            print("\n".join(plate_lines))
+    else:
+        st.info("請先完成排盤設定")
 
 # ── 說明 Tab ────────────────────────────────────────────────────
 with readme_tab:

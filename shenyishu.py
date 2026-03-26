@@ -249,7 +249,8 @@ def get_bingzhan_jixiong(shensha, active_gua):
     if shensha.get("魁元") == active_gua:
         score += 15
         reasons.append("魁元照臨(+15)")
-    if shensha.get("驛馬") == active_gua and shensha.get("驛馬") in ["乾", "艮", "巽"]:
+    yima = shensha.get("驛馬")
+    if yima == active_gua and yima in ["乾", "艮", "巽"]:
         score += 15
         reasons.append("驛馬得地(+15)")
     

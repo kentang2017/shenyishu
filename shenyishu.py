@@ -224,8 +224,7 @@ def get_zhenglu_yangren(year_gz):
 def is_ma_dai_dao(year_gz):
     yima = get_yima(year_gz)
     yangren = get_yangren(year_gz)
-    yima_positions = ["乾", "艮", "巽"]
-    return yima in yima_positions and yangren in ["震", "巽", "離", "坤", "兑", "乾", "坎", "艮"]
+    return yima == yangren
 
 def is_baoma(year_gz):
     guiren = get_guiren(year_gz)
@@ -237,33 +236,34 @@ def is_yinquan_shigu(year_gz):
     yima = get_yima(year_gz)
     return yima in ["坎", "震", "巽"]
 
-def get_bingzhan_jixiong(shensha):
+def get_bingzhan_jixiong(shensha, active_gua):
     score = 0
     reasons = []
     
-    if shensha.get("貴人"):
+    if shensha.get("貴人") == active_gua:
         score += 30
         reasons.append("貴人助力(+30)")
-    if shensha.get("天財"):
+    if shensha.get("天財") == active_gua:
         score += 20
         reasons.append("天財加持(+20)")
-    if shensha.get("魁元"):
+    if shensha.get("魁元") == active_gua:
         score += 15
         reasons.append("魁元照臨(+15)")
-    if shensha.get("驛馬") in ["乾", "艮", "巽"]:
+    yima = shensha.get("驛馬")
+    if yima == active_gua and yima in ["乾", "艮", "巽"]:
         score += 15
         reasons.append("驛馬得地(+15)")
     
-    if shensha.get("血光"):
+    if shensha.get("血光") == active_gua:
         score -= 30
         reasons.append("血光之災(-30)")
-    if shensha.get("白虎"):
+    if shensha.get("白虎") == active_gua:
         score -= 25
         reasons.append("白虎凶煞(-25)")
-    if shensha.get("破碎"):
+    if shensha.get("破碎") == active_gua:
         score -= 20
         reasons.append("破碎殺伐(-20)")
-    if shensha.get("劫殺"):
+    if shensha.get("劫殺") == active_gua:
         score -= 15
         reasons.append("劫殺顯現(-15)")
     
@@ -369,7 +369,8 @@ class Shenyishu():
         zongshu = analyze_zongshu(total)
         zhuke = get_zhuke_jieguo(zongshu)
         shensha = self.get_shensha()
-        jixiong = get_bingzhan_jixiong(shensha)
+        lianshan = self.get_lianshan()
+        jixiong = get_bingzhan_jixiong(shensha, lianshan)
         
         return {
             "生辰": f"{self.year}年{self.month}月{self.day}日{self.hour}時",
